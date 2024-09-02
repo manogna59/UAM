@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .column {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 45%;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-actions {
+            text-align: center;
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        #logout-button {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#logout-button:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: translateY(-2px);
+}
+ #reject-button {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#reject-button:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: translateY(-2px);
+}
+ #removee-button {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#removee-button:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: translateY(-2px);
+}
+ #rejectRes-button {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#rejectRes-button:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: translateY(-2px);
+}
+        
+        
+    </style>
+</head>
+<body>
+    <h1>Welcome to Admin Dashboard</h1>
+     <div class="section">
+                <div class="form-actions">
+                  
+                     <button id="logout-button" class="submit-button">Logout</button>
+                </div>
+            </div>
+            
+            
+    
+    <div class="container">
+        <div class="column one">
+               
+            <!-- Check Requests and Approve/Reject Requests -->
+            
+            <div class="section">
+                <h2>Manage Role Change Requests</h2>
+                <div class="form-group">
+                    <label for="requests">Requests:</label>
+                    <select id="requests" name="requests">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="approve-button" class="submit-button" onclick="approveRequest()">Approve</button>
+                    <button type="button" id="reject-button" class="submit-button" onclick="rejectRequest()">Reject</button>
+                </div>
+            </div>
+
+           
+           
+
+            <!-- Add Resource -->
+            <div class="section">
+                <h2>Add Resource</h2>
+                <div class="form-group">
+                    <label for="add-resource">Resource Name:</label>
+                    <input type="text" id="add-resource" name="add-resource">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onclick="submitResource()">Submit</button>
+                </div>
+            </div>
+
+            <!-- Remove Resource from Database -->
+            <div class="section">
+                <h2>Remove Resource from Database</h2>
+                <div class="form-group">
+                    <label for="remove-db-resource">Select Resource:</label>
+                    <select id="remove-db-resource" name="remove-db-resource">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onclick="removeResource()">Submit</button>
+                </div>
+            </div>
+               <div class="section">
+        <h2>User Resource Requests</h2>
+        <div class="form-group">
+            <label for="user-resource-requests">Requests:</label>
+            <select id="user-resource-requests" name="user-resource-requests">
+                <!-- Options will be populated dynamically -->
+            </select>
+        </div>
+        <div class="form-actions">
+            <button type="button" id="approveRes-button" class="submit-button" onclick="manageRequest('approve')">Approve</button>
+            <button type="button" id="rejectRes-button" class="submit-button" onclick="manageRequest('reject')">Reject</button>
+        </div>
+    </div>
+    
+         <div class="section">
+        <h2>Enter User Details</h2>
+        <form id="add-user-form">
+    <div class="form-group">
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" name="first_name" required>
+    </div>
+    <div class="form-group">
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" name="last_name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-actions">
+        <button type="button" class="submit-button" onclick="addUser()">Add User</button>
+    </div>
+</form>
+
+    </div>
+           
+        </div>
+
+        <div class="column two">
+            <!-- Remove Resource from User -->
+<div class="section">
+    <h2>Remove Resource from User</h2>
+    <div class="form-group">
+        <label for="remove-user-select">User Name:</label>
+        <select id="remove-user-select" name="remove-user-select">
+            <!-- Options populated by JavaScript -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="remove-user-resources">Select Resource to Remove:</label>
+        <select id="remove-user-resources" name="remove-user-resources">
+            <!-- Options populated by JavaScript -->
+        </select>
+    </div>
+    <div class="form-actions">
+        <button type="button" class="submit-button" onclick="handleResourceRemoval()">Submit</button>
+    </div>
+</div>
+
+
+            <div class="section">
+    <h2>Check Users for a Resource</h2>
+    <div class="form-group">
+        <label for="resource">Resource:</label>
+        <select id="resource" name="resource">
+            <!-- Options populated by JavaScript -->
+        </select>
+    </div>
+
+    <div id="user-container">
+        <!-- Users list will be populated here -->
+    </div>
+</div>
+
+            <!-- Check Resources of a User -->
+           <div class="section">
+    <h2>Check Resources of a User</h2>
+    <div class="form-group">
+        <label for="user">User Name:</label>
+        <select id="user" name="user">
+            <!-- Options populated by JavaScript -->
+        </select>
+    </div>
+    <div class="form-actions">
+        <button type="button" class="submit-button" onclick="fetchUserResources()">Submit </button>
+    </div>
+    <div id="resource-container">
+        <!-- Resources list or no resources message will be populated here -->
+    </div>
+</div>
+
+
+            <!-- Show Resources Button -->
+            <div class="section">
+            <h2>Show resources</h2>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onclick="showResources()">Show Resources</button>
+                </div>
+                <ul id="resource-list"></ul>
+            </div>
+                <div class="section">
+    <h2>Remove User</h2>
+    <div class="form-group">
+        <label for="remove-user">User Name:</label>
+        <select id="remove-user" name="remove-user">
+            <!-- Options populated by JavaScript -->
+        </select>
+    </div>
+    <div class="form-actions">
+        <button type="button" id="removee-button" class="submit-button" onclick="deleteUser()">Remove</button>
+    </div>
+    
+</div> 
+      
+        </div>
+
+       </div>  
+    <script> 
+        document.getElementById('logout-button').addEventListener('click', function() {
+            
+            window.close();
+            window.open('login.html', '_blank');
+            // Close the current window
+        });
+ 
+// Function to show the list of resources
+function showResources() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/uam/webapi/userdata/resources/list', true); 
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var resources = response.resources;
+
+            var resourceList = document.getElementById('resource-list');
+            resourceList.innerHTML = ''; // Clear previous list items
+
+            if (resources && resources.length > 0) {
+                resources.forEach(function (resource) {
+                    var listItem = document.createElement('li');
+                    listItem.textContent = resource;
+                    resourceList.appendChild(listItem);
+                });
+            } else {
+                resourceList.innerHTML = '<li>No resources available</li>';
+            }
+        } else {
+            alert('Failed to fetch resources: ' + xhr.responseText);
+        }
+    };
+
+    xhr.onerror = function () {
+        alert('Request error');
+    };
+
+    xhr.send();
+}
+
+// Function to submit a new resource
+function submitResource() {
+    var resourceName = document.getElementById('add-resource').value;
+
+    if (!resourceName) {
+        alert('Please enter a resource name');
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/uam/webapi/userdata/add-resource', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                alert('Resource added successfully');
+                showResources(); // Refresh the list after addition
+                updateRemoveResourceDropdown(); // Refresh the dropdown independently
+            } else {
+                alert('Failed to add resource: ' + response.error);
+            }
+        } else {
+            alert('Request failed: ' + xhr.responseText);
+        }
+    };
+
+    xhr.onerror = function () {
+        alert('Request error');
+    };
+
+    xhr.send('resource_name=' + encodeURIComponent(resourceName));
+}
+
+// Function to remove a resource
+function removeResource() {
+    var resourceName = document.getElementById('remove-db-resource').value;
+
+    if (!resourceName) {
+        alert('Please select a resource to remove');
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/uam/webapi/userdata/remove-resource', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                alert('Resource removed successfully');
+                showResources(); // Refresh the list after removal
+                updateRemoveResourceDropdown(); // Refresh the dropdown independently
+            } else {
+                alert('Failed to remove resource: ' + response.error);
+            }
+        } else {
+            alert('Request failed: ' + xhr.responseText);
+        }
+    };
+
+    xhr.onerror = function () {
+        alert('Request error');
+    };
+
+    xhr.send('resource_name=' + encodeURIComponent(resourceName));
+}
+
+
+// Function to update the dropdown for removing resources 
+function updateRemoveResourceDropdown() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/uam/webapi/userdata/resources/list', true); 
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var resources = response.resources;
+
+            var removeResourceSelect = document.getElementById('remove-db-resource');
+            removeResourceSelect.innerHTML = ''; // Clear previous options
+
+            if (resources && resources.length > 0) {
+                resources.forEach(function (resource) {
+                    var option = document.createElement('option');
+                    option.value = resource;
+                    option.textContent = resource;
+                    removeResourceSelect.appendChild(option);
+                });
+            } else {
+                removeResourceSelect.innerHTML = '<option>No resources available</option>';
+            }
+        } else {
+            alert('Failed to fetch resources: ' + xhr.responseText);
+        }
+    };
+
+    xhr.onerror = function () {
+        alert('Request error');
+    };
+
+    xhr.send();
+}
+document.addEventListener('DOMContentLoaded', function() {
+    updateRemoveResourceDropdown();
+});
+
+        function loadRoleChangeRequests() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/uam/webapi/userdata/role-change-requests', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var requestsSelect = document.getElementById('requests');
+                    requestsSelect.innerHTML = ''; // Clear previous options
+
+                    if (response.requests && response.requests.length > 0) {
+                        response.requests.forEach(function (request) {
+                            var option = document.createElement('option');
+                            option.value = request.id;
+                            option.textContent = `${request.username} requested for ${request.role} role`;
+                            requestsSelect.appendChild(option);
+                        });
+                    } else {
+                        requestsSelect.innerHTML = '<option>No requests available</option>';
+                    }
+                } else {
+                    alert('Failed to fetch requests: ' + xhr.responseText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+
+            xhr.send();
+        }
+
+        function approveRequest() {
+            var requestId = document.getElementById('requests').value;
+
+            if (!requestId) {
+                alert('Please select a request to approve');
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/uam/webapi/userdata/approve-request', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert('Request approved successfully');
+                        loadRoleChangeRequests(); // Refresh the requests list after approval
+                    } else {
+                        alert('Failed to approve request: ' + response.error);
+                    }
+                } else {
+                    alert('Request failed: ' + xhr.responseText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+
+            xhr.send('request_id=' + encodeURIComponent(requestId));
+        }
+
+        function rejectRequest() {
+            var requestId = document.getElementById('requests').value;
+
+            if (!requestId) {
+                alert('Please select a request to reject');
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/uam/webapi/userdata/reject-request', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert('Request rejected successfully');
+                        loadRoleChangeRequests(); // Refresh the requests list after rejection
+                    } else {
+                        alert('Failed to reject request: ' + response.error);
+                    }
+                } else {
+                    alert('Request failed: ' + xhr.responseText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+
+            xhr.send('request_id=' + encodeURIComponent(requestId));
+        }
+
+      
+        loadRoleChangeRequests();
+        
+        function loadRequests() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/uam/webapi/userdata/resource-requests', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var requestSelect = document.getElementById('user-resource-requests');
+                    var requests = response['resource-requests'];
+
+                    requestSelect.innerHTML = '';
+
+                    if (requests && requests.length > 0) {
+                        requests.forEach(function (request) {
+                            var option = document.createElement('option');
+                            option.value = request.id; // Use request ID
+                            option.textContent = `${request.username} requesting for ${request.resourceName}`;
+                            requestSelect.appendChild(option);
+                        });
+                    } else {
+                        requestSelect.innerHTML = '<option>No pending resource requests</option>';
+                    }
+                } else {
+                    alert('Failed to fetch resource requests: ' + xhr.responseText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+
+            xhr.send();
+        }
+
+
+        function manageRequest(action) {
+            var requestId = document.getElementById('user-resource-requests').value;
+
+            if (!requestId) {
+                alert('Please select a request');
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            var url = action === 'approve' ? '/uam/webapi/userdata/approve-resource-request' : '/uam/webapi/userdata/reject-resource-request';
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert(action.charAt(0).toUpperCase() + action.slice(1) + ' request successfully');
+                    loadRequests();  // Reload requests
+                } else {
+                    alert('Failed to ' + action + ' request: ' + xhr.responseText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+
+            xhr.send('requestId=' + encodeURIComponent(requestId));
+        }
+
+        window.onload = loadRequests;
+        
+    
+
+
+        // Function to remove the selected resource for the selected user
+    document.addEventListener('DOMContentLoaded', function() {
+    populateUsernames(); // Populate the user dropdown on page load
+    document.getElementById('remove-user-select').addEventListener('change', updateResourceDropdown);
+});
+ // Function to update the resources dropdown based on the selected user
+
+function updateResourceDropdown() {
+    const username = document.getElementById('remove-user-select').value;
+
+    if (!username) {
+        // Clear the resources dropdown if no user is selected
+        const resourceSelect = document.getElementById('remove-user-resources');
+        resourceSelect.innerHTML = '<option>Select a user first</option>';
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/uam/webapi/userdata/get-resources-for-user', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const resources = xhr.responseText.trim().split('\n');
+            const resourceSelect = document.getElementById('remove-user-resources');
+            resourceSelect.innerHTML = ''; // Clear previous options
+
+            if (resources.length > 0) {
+                resources.forEach(resource => {
+                    const option = document.createElement('option');
+                    option.value = resource;
+                    option.textContent = resource;
+                    resourceSelect.appendChild(option);
+                });
+            } else {
+                resourceSelect.innerHTML = '<option>No resources available</option>';
+            }
+        } else {
+            alert('Failed to fetch resources: ' + xhr.responseText);
+        }
+    };
+    xhr.onerror = function () {
+        alert('Request error');
+    };
+    xhr.send('username=' + encodeURIComponent(username));
+}
+
+// Function to handle the removal of a selected resource for a selected user
+function handleResourceRemoval() {
+    const username = document.getElementById('remove-user-select').value;
+    const resourceName = document.getElementById('remove-user-resources').value;
+
+    if (!username || !resourceName) {
+        alert('Please select a resource and a username.');
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/uam/webapi/userdata/remove-resource-for-user', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const response = xhr.responseText;
+            if (response === 'success') {
+                alert('Resource removed successfully.');
+                updateResourceDropdown(); // Refresh the dropdown
+            } else {
+                alert('Error removing resource: ' + response);
+            }
+        } else {
+            alert('Error removing resource: ' + xhr.responseText);
+        }
+    };
+    xhr.send('username=' + encodeURIComponent(username) + '&resource_name=' + encodeURIComponent(resourceName));
+}
+
+
+        
+        function populateResources() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/uam/webapi/userdata/get-all-resources-user', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const resources = xhr.responseText.trim().split('\n');
+                    const resourceSelect = document.getElementById('resource');
+                    resourceSelect.innerHTML = '';
+
+                    if (resources.length > 0) {
+                        resources.forEach(resource => {
+                            const option = document.createElement('option');
+                            option.value = resource;
+                            option.textContent = resource;
+                            resourceSelect.appendChild(option);
+                        });
+                    } else {
+                        resourceSelect.innerHTML = '<option>No resources available</option>';
+                    }
+                } else {
+                    alert('Failed to fetch resources: ' + xhr.responseText);
+                }
+            };
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+            xhr.send();
+        }
+
+      
+        // Calling this function when the page loads
+        document.addEventListener('DOMContentLoaded', populateResources);
+
+        
+        //check users for a resource
+        document.getElementById('resource').addEventListener('change', function() {
+            const resourceName = this.value;
+            if (!resourceName) {
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/uam/webapi/userdata/get-users-for-resource', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText.trim();
+                    const userContainer = document.getElementById('user-container');
+                    userContainer.innerHTML = ''; // Clear existing user list
+
+                    if (response.startsWith('No users found for')) {
+                        // Display message if no users are found
+                        userContainer.innerHTML = '<p>' + response + '</p>';
+                    } else {
+                        // Display list of users if found
+                        const users = response.split('\n');
+                        const userList = document.createElement('ul');
+
+                        users.forEach(user => {
+                            const li = document.createElement('li');
+                            li.textContent = user;
+                            userList.appendChild(li);
+                        });
+
+                        userContainer.appendChild(userList);
+                    }
+                } else {
+                    alert('Error fetching users: ' + xhr.responseText);
+                }
+            };
+            xhr.send('resource_name=' + encodeURIComponent(resourceName));
+        });
+        
+        
+     // populateUsernames function
+        function populateUsernames() {
+            // Populate user select for removing resources
+            const xhrForRemoval = new XMLHttpRequest();
+            xhrForRemoval.open('GET', '/uam/webapi/userdata/get-all-usernames', true);
+            xhrForRemoval.onload = function () {
+                if (xhrForRemoval.status === 200) {
+                    const usernames = xhrForRemoval.responseText.trim().split('\n');
+                    const userSelectRemove = document.getElementById('remove-user-select');
+                    userSelectRemove.innerHTML = '';
+
+                    if (usernames.length > 0) {
+                        usernames.forEach(username => {
+                            const option = document.createElement('option');
+                            option.value = username;
+                            option.textContent = username;
+                            userSelectRemove.appendChild(option);
+                        });
+                    } else {
+                        userSelectRemove.innerHTML = '<option>No users available</option>';
+                    }
+                } else {
+                    alert('Failed to fetch usernames: ' + xhrForRemoval.responseText);
+                }
+            };
+            xhrForRemoval.onerror = function () {
+                alert('Request error');
+            };
+            xhrForRemoval.send();
+
+            // Populate user select for checking resources
+            const xhrForCheck = new XMLHttpRequest();
+            xhrForCheck.open('GET', '/uam/webapi/userdata/get-all-usernames-res', true);
+            xhrForCheck.onload = function () {
+                if (xhrForCheck.status === 200) {
+                    const usernames = xhrForCheck.responseText.trim().split('\n');
+                    const userSelectCheck = document.getElementById('user');
+                    userSelectCheck.innerHTML = '';
+
+                    if (usernames.length > 0) {
+                        usernames.forEach(username => {
+                            const option = document.createElement('option');
+                            option.value = username;
+                            option.textContent = username;
+                            userSelectCheck.appendChild(option);
+                        });
+                    } else {
+                        userSelectCheck.innerHTML = '<option>No users available</option>';
+                    }
+                } else {
+                    alert('Failed to fetch usernames: ' + xhrForCheck.responseText);
+                }
+            };
+            xhrForCheck.onerror = function () {
+                alert('Request error');
+            };
+            xhrForCheck.send();
+        }
+
+        // Call function when the page loads
+        document.addEventListener('DOMContentLoaded', populateUsernames);
+
+        function fetchUserResources() {
+            const username = document.getElementById('user').value;
+            if (!username) {
+                alert('Please select a user.');
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/uam/webapi/userdata/get-resources-for-username', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText.trim();
+                    const resourceContainer = document.getElementById('resource-container');
+                    resourceContainer.innerHTML = ''; // Clear existing content
+
+                    if (response === "No resources found for username") {
+                        resourceContainer.innerHTML = '<p>No resources found for this username.</p>';
+                    } else {
+                        const resources = response.split('\n');
+                        const resourceList = document.createElement('ul');
+
+                        resources.forEach(resource => {
+                            const li = document.createElement('li');
+                            li.textContent = resource;
+                            resourceList.appendChild(li);
+                        });
+
+                        resourceContainer.appendChild(resourceList);
+                    }
+                } else {
+                    alert('Error fetching resources: ' + xhr.responseText);
+                }
+            };
+            xhr.send('username=' + encodeURIComponent(username));
+        }
+
+        // function when page loads to populate dropdown
+        document.addEventListener('DOMContentLoaded', populateUsernames);
+
+        // Attaching fetchUserResources function to the button click event
+        document.querySelector('.submit-button').addEventListener('click', fetchUserResources);
+        
+        function addUser() {
+            var form = document.getElementById('add-user-form');
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/uam/webapi/userdata/add-user', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert('User added successfully!');
+                        form.reset();
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                } else {
+                    alert('Request failed. Status: ' + xhr.status);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Request error.');
+            };
+
+            // Convert FormData to URLSearchParams
+            var data = new URLSearchParams(new FormData(form)).toString();
+            xhr.send(data);
+        }
+        
+        
+        function populateRemoveUserDropdown() {
+            const xhrForRemoval = new XMLHttpRequest();
+            xhrForRemoval.open('GET', '/uam/webapi/userdata/get-all-usernames-removeUser', true);
+            xhrForRemoval.onload = function () {
+                if (xhrForRemoval.status === 200) {
+                    // Split response text by newlines
+                    const usernames = xhrForRemoval.responseText.trim().split('\n');
+                    const userSelectRemove = document.getElementById('remove-user');
+                    userSelectRemove.innerHTML = '';
+
+                    if (usernames.length > 0) {
+                        usernames.forEach(username => {
+                            const option = document.createElement('option');
+                            option.value = username;
+                            option.textContent = username;
+                            userSelectRemove.appendChild(option);
+                        });
+                    } else {
+                        userSelectRemove.innerHTML = '<option>No users available</option>';
+                    }
+                } else {
+                    alert('Failed to fetch usernames for removal: ' + xhrForRemoval.responseText);
+                }
+            };
+            xhrForRemoval.onerror = function () {
+                alert('Request error while fetching usernames for removal');
+            };
+            xhrForRemoval.send();
+        }
+        document.addEventListener('DOMContentLoaded', populateRemoveUserDropdown);
+        
+        
+        function deleteUser() {
+            const userName = document.getElementById('remove-user').value;
+            if (!userName) {
+                alert('Please select a username.');
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/uam/webapi/userdata/delete-user', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const result = JSON.parse(xhr.responseText);
+                    if (result.success) {
+                        alert(result.success);
+                        populateRemoveUserDropdown(); // Refresh the dropdown
+                    } else {
+                        alert(result.error);
+                    }
+                } else {
+                    alert('Failed to delete user: ' + xhr.responseText);
+                }
+            };
+            xhr.onerror = function () {
+                alert('Request error while deleting user');
+            };
+
+            // Send the username as form parameter
+            xhr.send('username=' + encodeURIComponent(userName));
+        }
+
+    </script>
+</body>
+</html>

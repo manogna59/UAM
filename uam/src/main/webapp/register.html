@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+
+        .form-actions button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .form-actions .register-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .form-actions .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-actions button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .form-actions .register-link {
+                text-align: center;
+                display: block;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-group input {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .form-actions button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+        <h1>Register</h1>
+        <form id="registration-form" action="webapi/userdata/register" method="post">
+            <div class="form-group">
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname" required>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Create Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit">Register</button>
+                <a href="login.html" class="register-link">Already a user? Login here</a>
+            </div>
+            <p class="error-message" id="error-message"></p>
+            <p class="password-error-message" id="password-error-message"></p>
+        </form>
+    </div>
+    <script>
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', this.action, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set correct content type
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = xhr.responseText.trim();
+                if (response.startsWith("success:")) {
+                    const username = response.split(":")[1];
+                    window.location.href = `successReg.html?username=${encodeURIComponent(username)}`;
+                } else {
+                    document.getElementById('error-message').textContent = response.replace('error:', '');
+                }
+            } else {
+                document.getElementById('error-message').textContent = 'Registration failed: ' + xhr.responseText;
+            }
+        };
+
+        xhr.onerror = function() {
+            document.getElementById('error-message').textContent = 'Request error.';
+        };
+
+        // Convert FormData to URL encoded string
+        const params = new URLSearchParams(formData).toString();
+        xhr.send(params);
+    });
+
+    </script>
+</body>
+</html>

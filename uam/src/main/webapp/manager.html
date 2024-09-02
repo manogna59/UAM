@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-first {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            max-width: 48%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between sections */
+        }
+
+        .section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-actions {
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .form-actions button {
+            background-color: #4169E1; /* Royal Blue */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .form-actions button:hover {
+            background-color: #27408B; /* Darker Royal Blue */
+            transform: translateY(-2px);
+        }
+
+        .form-actions .submit-button {
+            background-color: #28a745; /* Green for Submit */
+        }
+
+        .form-actions .submit-button:hover {
+            background-color: #218838; /* Darker Green */
+        }
+
+        .logout-button {
+            background-color: #dc3545; /* Danger color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333; /* Darker Red */
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4; /* Header background color */
+        }
+
+        /* Container for the table with fixed header and scrollable body */
+        .table-container {
+            max-height: 400px; /* Adjust height as needed */
+            overflow-y: auto; /* Vertical scrollbar */
+        }
+
+        /* Ensure header sticks to the top */
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-container thead th {
+            position: -webkit-sticky; /* For Safari */
+            position: sticky;
+            top: 0;
+            background-color: #f4f4f4; /* Same as the th background color */
+            z-index: 1; /* Ensure header stays on top */
+        }
+
+        /* Centered Section */
+        .centered-section {
+            width: 100%;
+            max-width: 800px; /* Adjust max width as needed */
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+      
+        .centered-section button {
+    background-color: #28a745; /* Green color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 20px; /* Space below the button */
+}
+
+.centered-section button:hover {
+    background-color: #218838; /* Darker green color for hover */
+    transform: translateY(-2px);
+}
+/* Specific style for logout button */
+#logout-button {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#logout-button:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: translateY(-2px);
+}
+
+        
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container-first {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .column {
+                max-width: 100%;
+            }
+
+            .form-actions button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .centered-section {
+                max-width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Manager Dashboard</h1>
+    <div class="section">
+        <div class="form-actions">
+            <button type="button" id="logout-button" class="submit-button" onClick="logout()">Logout</button>
+        </div>
+    </div>
+    <div class="container-first">
+        <div class="column">
+            <!-- Show Team -->
+            <div class="section">
+                <h2>Show Team</h2>
+                <div class="form-group">
+                    <label for="team">Team Members:</label>
+                    <select id="team" name="team" disabled>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Get a Team Member -->
+            <div class="section">
+                <h2>Get a Team member</h2>
+                <div class="form-group">
+                    <label for="user">User Name:</label>
+                    <select id="user" name="user">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onClick="assignUser()">Submit</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Request for Admin</h2>
+                <div class="form-group">
+                    <label for="request-type">Select Role:</label>
+                    <select id="request-type" name="request-type">
+                        <option value="">Select Role</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onclick="submitRoleRequest()">Submit Request</button>
+                </div>
+                <p id="current-request-status"></p>
+            </div>
+        </div>
+
+        <div class="column">
+            <!-- Check Resources -->
+            <div class="section">
+                <h2>Check Resources</h2>
+                <div class="form-actions">
+                    <button type="submit" class="submit-button" onclick="fetchhApprovedResources()">Check Resources</button>
+                    <ul id="resource-list"></ul>
+                </div>
+                <div class="resources-text" id="resources-text">
+                    <!-- Approved resources will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Request New Resource -->
+            <div class="section">
+                <h2>Request New Resource</h2>
+                <div class="form-group">
+                    <label for="new-resource">Select Resource:</label>
+                    <select id="new-resource" name="new-resource">
+                        <!-- Options populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onclick="submitRequest()">Submit Request</button>
+                </div>
+            </div>
+
+            <!-- Remove Own Resource -->
+            <div class="section">
+                <h2>Remove Own Resource</h2>
+                <div class="form-group">
+                    <label for="remove-resource-by-man">Select a resource:</label>
+                    <select id="remove-resource-by-man">
+                        <option value="">Select a resource</option>
+                        <!-- Options will be dynamically added here -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="submit-button" onclick="removeResourceByUser()">Remove Resource</button>
+                </div>
+                <p id="remove-resource-status" class="error-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Centered Check Approvals Section -->
+    <div class="centered-section">
+        <h2>Check Approvals</h2>
+        <button type="button" class="submit-button" onclick="checkApprovals()">Check Approvals</button>
+        <div class="table-container">
+            <table id="approvalTable">
+                <thead>
+                    <tr>
+                        <th>Request Type</th>
+                        <th>Request Name</th>
+                        <th>Approval Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <script>
+    function logout() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/logout', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert('Logged out successfully.');
+                
+                window.location.href = 'login.html';
+            } else {
+                alert('Logout failed: ' + xhr.responseText);
+            }
+        };
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+        xhr.send();
+    }
+    function showResources() {
+        // Fetch approved resources first
+        const xhrApproved = new XMLHttpRequest();
+        xhrApproved.open('POST', '/uam/webapi/userdata/get-approved-resources', true);
+        xhrApproved.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        xhrApproved.onload = function () {
+            if (xhrApproved.status === 200) {
+                const approvedResources = JSON.parse(xhrApproved.responseText).map(resource => resource.resource);
+
+                // Fetch all available resources
+                const xhrAll = new XMLHttpRequest();
+                xhrAll.open('GET', '/uam/webapi/userdata/resources/list', true);
+
+                xhrAll.onload = function () {
+                    if (xhrAll.status === 200) {
+                        const response = JSON.parse(xhrAll.responseText);
+                        const allResources = response.resources;
+
+                        // Filter out the approved resources from the list of all resources
+                        const filteredResources = allResources.filter(resource => !approvedResources.includes(resource));
+
+                        // Populate the dropdown
+                        const resourceSelect = document.getElementById('new-resource');
+                        resourceSelect.innerHTML = '';
+
+                        if (filteredResources.length > 0) {
+                            filteredResources.forEach(resource => {
+                                const option = document.createElement('option');
+                                option.value = resource;
+                                option.textContent = resource;
+                                resourceSelect.appendChild(option);
+                            });
+                        } else {
+                            resourceSelect.innerHTML = '<option>No resources available</option>';
+                        }
+                    } else {
+                        alert('Failed to fetch all available resources: ' + xhrAll.responseText);
+                    }
+                };
+
+                xhrAll.onerror = function () {
+                    alert('Request error');
+                };
+
+                xhrAll.send();
+            } else {
+                alert('Failed to fetch approved resources: ' + xhrApproved.responseText);
+            }
+        };
+
+        xhrApproved.onerror = function () {
+            alert('Request error');
+        };
+
+        xhrApproved.send();
+    }
+
+    // Call the function to show resources when the page loads
+    document.addEventListener('DOMContentLoaded', showResources);
+    function fetchhApprovedResources() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/get-approved-resources', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    // Parse the JSON response
+                    const resources = JSON.parse(xhr.responseText);
+
+                    // Get the list element where resources will be displayed
+                    const resourceList = document.getElementById('resource-list');
+                    
+                    if (!resourceList) {
+                        alert('Resource list element not found.');
+                        return;
+                    }
+
+                    // Ensure each resource is unique
+                    const resourceNames = new Set(resources.map(resource => resource.resource));
+
+                    // Clear any existing list items
+                    resourceList.innerHTML = '';
+
+                    // Create list items for each unique resource
+                    resourceNames.forEach(resource => {
+                        const li = document.createElement('li');
+                        li.textContent = resource;
+                        resourceList.appendChild(li);
+                    });
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message);
+                }
+            } else {
+                alert('Error fetching resources: ' + xhr.responseText);
+            }
+        };
+        xhr.send(); 
+    }
+    function submitRequest() {
+        var resource = document.getElementById('new-resource').value;
+
+        if (!resource) {
+            alert('Please select a resource');
+            return;
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/submit-resource-request', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                alert(response.error ? response.error : 'Request submitted successfully');
+            } else {
+                alert('Failed to submit request: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send('resource=' + encodeURIComponent(resource));
+    }
+    // Function to fetch approved resources and populate the dropdown
+    function populateResourceDropdown() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/get-approved-resources', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    // Parse the JSON response
+                    const resources = JSON.parse(xhr.responseText);
+
+                    // Get the dropdown element
+                    const resourceDropdown = document.getElementById('remove-resource-by-man');
+                    
+                    if (!resourceDropdown) {
+                        alert('Dropdown element not found.');
+                        return;
+                    }
+
+                    // Ensure each resource is unique
+                    const resourceNames = new Set(resources.map(resource => resource.resource));
+
+                    // Clear existing dropdown options
+                    resourceDropdown.innerHTML = '<option value="">Select a resource</option>'; // Add default option
+
+                    // Create dropdown options for each unique resource
+                    resourceNames.forEach(resource => {
+                        const option = document.createElement('option');
+                        option.value = resource;
+                        option.textContent = resource;
+                        resourceDropdown.appendChild(option);
+                    });
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message);
+                }
+            } else {
+                alert('Error fetching resources: ' + xhr.responseText);
+            }
+        };
+        xhr.send();  
+    }
+
+    // Remove the selected resource by user
+    function removeResourceByUser() {
+        const resourceName = document.getElementById('remove-resource-by-man').value;
+        if (!resourceName) {
+            alert('Please select a resource.');
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/remove-resource-by-user', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert('Resource removed successfully.');
+                    populateResourceDropdown(); // Refresh the dropdown
+                } else {
+                    alert('Error removing resource: ' + response.error);
+                }
+            } else {
+                alert('Error removing resource: ' + xhr.responseText);
+            }
+        };
+        xhr.send('resource_name=' + encodeURIComponent(resourceName));
+    }
+
+    // Initialize the dropdown when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        populateResourceDropdown();
+    });
+
+
+
+    function submitRoleRequest() {
+        var role = document.getElementById('request-type').value;
+
+        if (!role) {
+            alert('Please select a role');
+            return;
+        }
+
+        checkCurrentRequest(function(currentRequest) {
+            if (currentRequest) {
+                if (confirm(`You have an existing request to change role to ${currentRequest}. Do you want to cancel it and submit a new request?`)) {
+                    cancelRoleRequest(function() {
+                        submitNewRoleRequest(role);
+                    });
+                }
+            } else {
+                submitNewRoleRequest(role);
+            }
+        });
+    }
+
+    function checkCurrentRequest(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/uam/webapi/userdata/current-role-request', true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.currentRequest) {
+                    callback(response.currentRequest.role);
+                } else {
+                    callback(null);
+                }
+            } else {
+                alert('Failed to fetch current request: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send();
+    }
+
+    function cancelRoleRequest(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/cancel-role-request', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert('Previous request cancelled successfully');
+                    callback();
+                } else {
+                    alert('Failed to cancel request: ' + response.error);
+                }
+            } else {
+                alert('Request failed: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send();
+    }
+
+    function submitNewRoleRequest(role) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/request-role-change', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    document.getElementById('current-request-status').textContent = 'Role change request submitted successfully';
+                } else {
+                    document.getElementById('current-request-status').textContent = 'Failed to submit request: ' + response.error;
+                }
+            } else {
+                document.getElementById('current-request-status').textContent = 'Request failed: ' + xhr.responseText;
+            }
+        };
+
+        xhr.onerror = function () {
+            document.getElementById('current-request-status').textContent = 'Request error';
+        };
+
+        xhr.send('role=' + encodeURIComponent(role));
+    }
+
+
+
+
+    // Function to populate usernames
+    function populateUsernames() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/uam/webapi/userdata/get-all-members', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const usernames = xhr.responseText.trim().split('\n');
+                const userSelect = document.getElementById('user');
+                userSelect.innerHTML = ''; // Clear previous options
+
+                if (usernames.length > 0) {
+                    usernames.forEach(username => {
+                        const option = document.createElement('option');
+                        option.value = username;
+                        option.textContent = username;
+                        userSelect.appendChild(option);
+                    });
+                } else {
+                    userSelect.innerHTML = '<option>No users available</option>';
+                }
+            } else {
+                alert('Failed to fetch usernames: ' + xhr.responseText);
+            }
+        };
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+        xhr.send();
+    }
+
+    // Function to assign selected user to the manager
+    function assignUser() {
+        const selectedOption = document.getElementById('user').value;
+
+        if (selectedOption) {
+            fetch('/uam/webapi/userdata/assign-users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'username': selectedOption
+                })
+            })
+            .then(response => {
+                const contentType = response.headers.get('Content-Type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+            })
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    alert(data.message || 'User successfully assigned to manager.');
+                }
+            })
+            .catch(error => alert('Failed to assign user: ' + error));
+        } else {
+            alert('Please select a user.');
+        }
+    }
+
+    // Populate the user options when the page loads
+    document.addEventListener('DOMContentLoaded', populateUsernames);
+    document.addEventListener('DOMContentLoaded', function() {
+        populateTeamDropdown();
+    });
+   
+
+   
+    function checkApprovals() {
+        fetch('/uam/webapi/userdata/check-approvals', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+        }) 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); 
+            })
+            .then(data => {
+                const tableBody = document.querySelector('#approvalTable tbody');
+                tableBody.innerHTML = ''; // Clear previous results
+
+                // Split the plain text data by new lines
+                const rows = data.trim().split('\n');
+
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Skip the header line
+
+                    const columns = row.split(/\s{2,}/); // Split by 2 or more spaces
+                    const tr = document.createElement('tr');
+
+                    columns.forEach(column => {
+                        const td = document.createElement('td');
+                        td.textContent = column;
+                        tr.appendChild(td);
+                    });
+
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+   
+    
+    function loadTeamMembers() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/uam/webapi/userdata/fetchh-team-members', true);
+        xhr.setRequestHeader('Content-Type', 'text/plain');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = xhr.responseText;
+                const dropdown = document.getElementById('team');
+               
+                // Enable dropdown
+                dropdown.disabled = false;
+                // Clear existing options
+                dropdown.innerHTML = '<option value="">Team:</option>';
+
+                // Split the comma-separated string into an array
+                const teamMembers = response.split(',');
+
+                // Populate dropdown with team members
+                teamMembers.forEach(member => {
+                    if (member.trim()) { // Check for non-empty values
+                        const option = document.createElement('option');
+                        option.value = member.trim();
+                        option.textContent = member.trim();
+                        dropdown.appendChild(option);
+                    }
+                });
+            } else {
+                console.error('Failed to fetch team members:', xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('Request error');
+        };
+
+        xhr.send();
+    }
+
+    // Load team members when the page loads
+    window.onload = loadTeamMembers;
+    function populateAssignManagerDropdown() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/uam/webapi/userdata/fetchh-team-members', true); 
+        xhr.setRequestHeader('Content-Type', 'text/plain');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = xhr.responseText;
+                const dropdown = document.getElementById('team-member');
+
+                // Clear existing options
+                dropdown.innerHTML = '<option value="">Select team member</option>';
+
+                // Split the comma-separated string into an array
+                const teamMembers = response.split(',');
+
+                // Populate dropdown with team members
+                teamMembers.forEach(member => {
+                    if (member.trim()) { // Check for non-empty values
+                        const option = document.createElement('option');
+                        option.value = member.trim();
+                        option.textContent = member.trim();
+                        dropdown.appendChild(option);
+                    }
+                });
+            } else {
+                console.error('Failed to fetch team members for manager assignment:', xhr.statusText);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('Request error for manager assignment');
+        };
+
+        xhr.send();
+    }
+
+    window.onload = function() {
+        loadTeamMembers(); 
+        populateAssignManagerDropdown(); // Populate the team member dropdown
+    };
+
+
+
+
+</script>
+
+</body>
+
+</html>

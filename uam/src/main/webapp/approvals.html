@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approvals</title>
+</head>
+<body>
+    <h1>Approval Details</h1>
+    <table id="approvals-table" border="1">
+        <thead>
+            <tr>
+                <th>Request Type</th>
+                <th>Request Name</th>
+                <th>Approval Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+    <script>
+        function fetchApprovals() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/uam/webapi/userdata/get-approvals', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const response = xhr.responseText.trim().split('\n');
+                    const tableBody = document.getElementById('approvals-table').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+
+                    response.forEach(line => {
+                        const [requestType, requestName, approvalStatus] = line.split('|');
+                        const row = tableBody.insertRow();
+                        row.insertCell(0).textContent = requestType;
+                        row.insertCell(1).textContent = requestName;
+                        row.insertCell(2).textContent = approvalStatus;
+                    });
+                } else {
+                    alert('Failed to fetch approvals: ' + xhr.responseText);
+                }
+            };
+            xhr.onerror = function () {
+                alert('Request error');
+            };
+            xhr.send();
+        }
+
+        // Fetch approvals when the page loads
+        document.addEventListener('DOMContentLoaded', fetchApprovals);
+    </script>
+</body>
+</html>

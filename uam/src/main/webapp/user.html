@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0; 
+        }
+
+        .container-first {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px; 
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        .container-second {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            background-color: #e0e0e0;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+            box-sizing: border-box;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 { 
+            text-align: center;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
+        .section .form-group {
+            margin-bottom: 15px;
+        }
+
+        .section .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .section .form-group input,
+        .section .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .section .form-actions {
+            text-align: center;
+        }
+
+        .section .form-actions button {
+            background-color: #4169E1; /* Royal Blue */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .section .form-actions button:hover {
+            background-color: #27408B; /* Darker Royal Blue */
+            transform: translateY(-2px);
+        }
+
+        .section .form-actions .submit-button {
+            background-color: #28a745; /* Green for Submit */
+        }
+
+        .section .form-actions .submit-button:hover {
+            background-color: #218838; /* Darker Green */
+        }
+
+        .logout-button {
+            background-color: #dc3545; /* Danger color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333; /* Darker Red */
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4; /* Header background color */
+        }
+
+        /* Container for the table with fixed header and scrollable body */
+        .table-container {
+            max-height: 400px; /* Adjust height as needed */
+            overflow-y: auto; /* Vertical scrollbar */
+            margin: 0 auto; /* Center horizontally */
+        }
+
+        /* Ensure header sticks to the top */
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-container thead th {
+            position: -webkit-sticky; /* For Safari */
+            position: sticky;
+            top: 0;
+            background-color: #f4f4f4; /* Same as the th background color */
+            z-index: 1; /* Ensure header stays on top */
+        }
+
+        /* Center the Check Approvals section */
+        .check-approvals-section {
+            width: 100%;
+            max-width: 800px; /* Adjust max width as needed */
+            margin: 20px auto; /* Center horizontally and add vertical margin */
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .check-approvals-section h1 {
+            margin-bottom: 20px;
+        }
+
+        .check-approvals-section button {
+            background-color: #28a745; /* Green color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-bottom: 20px; /* Space below the button */
+        }
+
+        .check-approvals-section button:hover {
+            background-color: #218838; /* Darker green color for hover */
+            transform: translateY(-2px);
+        }
+        /* Specific style for logout button */
+#logout-button {
+    background-color: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#logout-button:hover {
+    background-color: #c82333; /* Darker Red */
+    transform: translateY(-2px);
+}
+        
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container-first {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .column {
+                min-width: 100%;
+            }
+
+            .section {
+                margin-bottom: 15px;
+            }
+
+            .section .form-actions button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to User Dashboard</h1>
+<div class="section">
+    <div class="form-actions">
+        <button type="button" id="logout-button" class="submit-button" onClick="logout()">Logout</button>
+    </div>
+</div>
+<div class="container-first">
+    <!-- Check Resources -->
+    <div class="column">
+        <div class="section">
+            <h2>Check Resources</h2>
+            <div class="form-actions">
+                <button type="button" class="submit-button" onclick="fetchhApprovedResources()">Check Resources</button>
+                <ul id="resource-list"></ul>
+            </div>
+            <div class="resources-text" id="resources-text">
+                <!-- Approved resources will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Remove Own Resource -->
+        <div class="section">
+            <h2>Remove Own Resource</h2>
+            <div class="form-group">
+                <label for="remove-resource">Select Resource to Remove:</label>
+                <select id="remove-resource" name="remove-resource">
+                    <!-- Options populated by JavaScript -->
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="submit-button" onclick="removeResourceByUser()">Remove Resource</button>
+            </div>
+        </div>
+
+        <!-- Know Manager -->
+        <div class="section">
+            <div class="form-actions">
+                <button type="button" class="submit-button" onclick="knowManager()">Know Manager</button>
+                <ul id="managername"></ul>
+            </div>
+            <div class="manager-text" id="manager-text">
+                <!-- Manager's name will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Request New Resource -->
+    <div class="column">
+        <div class="section">
+            <h2>Request New Resource</h2>
+            <div class="form-group">
+                <label for="new-resource">Select Resource:</label>
+                <select id="new-resource" name="new-resource">
+                    <!-- Options populated by JavaScript -->
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="submit-button" onclick="submitRequest()">Submit Request</button>
+            </div>
+        </div>
+
+        <!-- Request for Manager/Admin -->
+        <div class="section">
+            <h2>Request for Manager/Admin</h2>
+            <div class="form-group">
+                <label for="request-type">Select Role:</label>
+                <select id="request-type" name="request-type">
+                    <option value="">Select Role</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="submit-button" onclick="submitRoleRequest()">Submit Request</button>
+            </div>
+            <p id="current-request-status"></p>
+        </div>
+    </div>
+</div>
+
+<!-- Centered Check Approvals Section -->
+<div class="check-approvals-section">
+    <h1>Check Approvals</h1>
+    <button onclick="checkApprovals()">Check Approvals</button>
+    <br><br>
+    <div class="table-container">
+        <table id="approvalTable">
+            <thead>
+                <tr>
+                    <th>Request Type</th>
+                    <th>Request Name</th>
+                    <th>Approval Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+    <script>
+    function logout() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/logout', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert('Logged out successfully.');
+                
+                window.location.href = 'login.html';
+            } else {
+                alert('Logout failed: ' + xhr.responseText);
+            }
+        };
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+        xhr.send();
+    }
+    function showResources() {
+        // Fetch approved resources first
+        const xhrApproved = new XMLHttpRequest();
+        xhrApproved.open('POST', '/uam/webapi/userdata/get-approved-resources', true);
+        xhrApproved.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        xhrApproved.onload = function () {
+            if (xhrApproved.status === 200) {
+                const approvedResources = JSON.parse(xhrApproved.responseText).map(resource => resource.resource);
+
+                // Fetch all available resources
+                const xhrAll = new XMLHttpRequest();
+                xhrAll.open('GET', '/uam/webapi/userdata/resources/list', true);
+
+                xhrAll.onload = function () {
+                    if (xhrAll.status === 200) {
+                        const response = JSON.parse(xhrAll.responseText);
+                        const allResources = response.resources;
+
+                        // Filter out the approved resources from the list of all resources
+                        const filteredResources = allResources.filter(resource => !approvedResources.includes(resource));
+
+                        // Populate the dropdown
+                        const resourceSelect = document.getElementById('new-resource');
+                        resourceSelect.innerHTML = '';
+
+                        if (filteredResources.length > 0) {
+                            filteredResources.forEach(resource => {
+                                const option = document.createElement('option');
+                                option.value = resource;
+                                option.textContent = resource;
+                                resourceSelect.appendChild(option);
+                            });
+                        } else {
+                            resourceSelect.innerHTML = '<option>No resources available</option>';
+                        }
+                    } else {
+                        alert('Failed to fetch all available resources: ' + xhrAll.responseText);
+                    }
+                };
+
+                xhrAll.onerror = function () {
+                    alert('Request error');
+                };
+
+                xhrAll.send();
+            } else {
+                alert('Failed to fetch approved resources: ' + xhrApproved.responseText);
+            }
+        };
+
+        xhrApproved.onerror = function () {
+            alert('Request error');
+        };
+
+        xhrApproved.send();
+    }
+
+    // Call the function to show resources when the page loads
+    document.addEventListener('DOMContentLoaded', showResources);
+
+    //resource request
+    function submitRequest() {
+        var resource = document.getElementById('new-resource').value;
+
+        if (!resource) {
+            alert('Please select a resource');
+            return;
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/submit-resource-request', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                alert(response.error ? response.error : 'Request submitted successfully');
+            } else {
+                alert('Failed to submit request: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send('resource=' + encodeURIComponent(resource));
+    }
+  
+
+    function submitRoleRequest() {
+        var role = document.getElementById('request-type').value;
+
+        if (!role) {
+            alert('Please select a role');
+            return;
+        }
+
+        checkCurrentRequest(function(currentRequest) {
+            if (currentRequest) {
+                if (confirm(`You have an existing request to change role to ${currentRequest}. Do you want to cancel it and submit a new request?`)) {
+                    cancelRoleRequest(function() {
+                        submitNewRoleRequest(role);
+                    });
+                }
+            } else {
+                submitNewRoleRequest(role);
+            }
+        });
+    }
+
+    function checkCurrentRequest(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/uam/webapi/userdata/current-role-request', true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.currentRequest) {
+                    callback(response.currentRequest.role);
+                } else {
+                    callback(null);
+                }
+            } else {
+                alert('Failed to fetch current request: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send();
+    }
+
+    function cancelRoleRequest(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/cancel-role-request', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert('Previous request cancelled successfully');
+                    callback();
+                } else {
+                    alert('Failed to cancel request: ' + response.error);
+                }
+            } else {
+                alert('Request failed: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send();
+    }
+
+    function submitNewRoleRequest(role) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/request-role-change', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    document.getElementById('current-request-status').textContent = 'Role change request submitted successfully';
+                } else {
+                    document.getElementById('current-request-status').textContent = 'Failed to submit request: ' + response.error;
+                }
+            } else {
+                document.getElementById('current-request-status').textContent = 'Request failed: ' + xhr.responseText;
+            }
+        };
+
+        xhr.onerror = function () {
+            document.getElementById('current-request-status').textContent = 'Request error';
+        };
+
+        xhr.send('role=' + encodeURIComponent(role));
+    }
+    
+    //to display users resources
+    function fetchhApprovedResources() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/get-approved-resources', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    // Parse the JSON response
+                    const resources = JSON.parse(xhr.responseText);
+
+                    // Get the list element where resources will be displayed
+                    const resourceList = document.getElementById('resource-list');
+                    
+                    if (!resourceList) {
+                        alert('Resource list element not found.');
+                        return;
+                    }
+
+                    // Ensure each resource is unique
+                    const resourceNames = new Set(resources.map(resource => resource.resource));
+
+                    // Clear any existing list items
+                    resourceList.innerHTML = '';
+
+                    // Create list items for each unique resource
+                    resourceNames.forEach(resource => {
+                        const li = document.createElement('li');
+                        li.textContent = resource;
+                        resourceList.appendChild(li);
+                    });
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message);
+                }
+            } else {
+                alert('Error fetching resources: ' + xhr.responseText);
+            }
+        };
+        xhr.send(); 
+    }
+    
+    //to display dropdown for resource removal
+    function fetchApprovedResources() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/get-approved-resources', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    const resources = JSON.parse(xhr.responseText);
+
+                    const dropdown = document.getElementById('remove-resource');
+                    if (!dropdown) {
+                        alert('Dropdown element not found.');
+                        return;
+                    }
+
+                    // Clear previous entries
+                    dropdown.innerHTML = '<option value="">Select a resource</option>';
+
+                    // Populate the dropdown with resources
+                    resources.forEach(resource => {
+                        const option = document.createElement('option');
+                        option.value = resource.resource;
+                        option.textContent = resource.resource;
+                        dropdown.appendChild(option);
+                    });
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message);
+                }
+            } else {
+                alert('Error fetching resources: ' + xhr.responseText);
+            }
+        };
+        xhr.send();  
+    }
+    function removeResourceByUser() {
+        const resourceName = document.getElementById('remove-resource').value;
+        if (!resourceName) {
+            alert('Please select a resource.');
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/uam/webapi/userdata/remove-resource-by-user', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert('Resource removed successfully.');
+                    fetchApprovedResources(); // Refresh the dropdown
+                } else {
+                    alert('Error removing resource: ' + response.error);
+                }
+            } else {
+                alert('Error removing resource: ' + xhr.responseText);
+            }
+        };
+        xhr.send('resource_name=' + encodeURIComponent(resourceName));
+    }
+
+    window.onload = function() {
+        showResources();
+        fetchApprovedResources(); // Populate on page load
+       
+    };
+    function knowManager() {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/uam/webapi/userdata/get-manager-for-user', true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    const managerName = response.manager; // Access the 'manager' from the JSON response
+                    const resourcesText = document.getElementById('manager-text');
+                    const resourceList = document.getElementById('managername');
+
+                    if (managerName) {
+                        resourcesText.textContent = 'Manager: ' + managerName;
+
+                        
+                    } else {
+                        resourcesText.textContent = 'No manager assigned.';
+                    }
+
+                    resourceList.innerHTML = ''; // Clear previous list items
+                } catch (e) {
+                    alert('Error parsing response: ' + e.message);
+                }
+            } else {
+                alert('Error fetching manager: ' + xhr.responseText);
+            }
+        };
+
+        xhr.onerror = function () {
+            alert('Request error');
+        };
+
+        xhr.send();
+    }
+
+    function checkApprovals() {
+        fetch('/uam/webapi/userdata/check-approvals', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // Assuming the response is plain text
+            })
+            .then(data => {
+                const tableBody = document.querySelector('#approvalTable tbody');
+                tableBody.innerHTML = ''; // Clear previous results
+
+                // Split the plain text data by new lines
+                const rows = data.trim().split('\n');
+
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Skip the header line
+
+                    const columns = row.split(/\s{2,}/); // Split by 2 or more spaces
+                    const tr = document.createElement('tr');
+
+                    columns.forEach(column => {
+                        const td = document.createElement('td');
+                        td.textContent = column;
+                        tr.appendChild(td);
+                    });
+
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+  
+
+
+    </script>
+</body>
+</html>
